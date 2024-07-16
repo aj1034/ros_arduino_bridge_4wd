@@ -133,6 +133,8 @@ char cmd;
 // Character arrays to hold the first and second arguments
 char argv1[16];
 char argv2[16];
+char argv3[16];
+char argv4[16];
 
 // The arguments converted to integers
 long arg1;
@@ -145,8 +147,8 @@ void resetCommand() {
   cmd = NULL;
   memset(argv1, 0, sizeof(argv1));
   memset(argv2, 0, sizeof(argv2));
-  memset(argv1, 0, sizeof(argv1));
-  memset(argv2, 0, sizeof(argv2));
+  memset(argv3, 0, sizeof(argv3));
+  memset(argv4, 0, sizeof(argv4));
   arg1 = 0;
   arg2 = 0;
   arg3 = 0;
@@ -163,6 +165,8 @@ int runCommand() {
   int pid_args[4];
   arg1 = atoi(argv1);
   arg2 = atoi(argv2);
+  arg3 = atoi(argv3);
+  arg4 = atoi(argv4);
   
   switch(cmd) {
   case GET_BAUDRATE:
@@ -329,6 +333,8 @@ void loop() {
     if (chr == 13) {
       if (arg == 1) argv1[index] = NULL;
       else if (arg == 2) argv2[index] = NULL;
+      else if (arg ==3) argv3[index] = NULL;
+      else if(arg == 4) argv4[index] = NULL;
       runCommand();
       resetCommand();
     }
@@ -341,8 +347,19 @@ void loop() {
         arg = 2;
         index = 0;
       }
+      else if (arg == 2){
+        argv2[index] = NULL;
+        arg = 3;
+        index = 0;
+      }
+      else if(arg == 3){
+        argv3[index] = NULL;
+        arg =4;
+        index = 0;
+      }
       continue;
-    }
+      }
+      
     else {
       if (arg == 0) {
         // The first arg is the single-letter command
@@ -355,6 +372,14 @@ void loop() {
       }
       else if (arg == 2) {
         argv2[index] = chr;
+        index++;
+      }
+      else if(arg == 3){
+        argv3[index] = chr;
+        index++;
+      }
+      else if(arg == 4){
+        argv4[index] = chr;
         index++;
       }
     }
